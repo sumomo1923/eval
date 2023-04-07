@@ -29,7 +29,7 @@ def audio_list(request, item_id):
 
     if request.method == 'POST':
         student_name = request.POST['student_name']
-        student = Student.objects.get(name=student_name).order_by('name')
+        student = Student.objects.get(name=student_name)
         eval_item_name = Eval_item.objects.get(item_text=eval_item_name)
 
         std = Score()
