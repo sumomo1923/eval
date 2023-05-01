@@ -1,6 +1,6 @@
 <!-- 네비게이션바 -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-    <div class="container-fluid">
+    <div style="font-family: 'Noto Serif KR', serif;" class="container-fluid">
         <a class="navbar-brand" href="{% url 'eval:student_list' %}">한국어 학습자 발음 평가 시스템</a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
@@ -21,7 +21,7 @@
                 </li>
                 <li>
                     {% if not user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
+                    <a class="nav-link" href="{% url 'common:signup' %}">평가자 등록</a>
                     {% endif %}
                 </li>
             </ul>

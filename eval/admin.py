@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Student, AudioFile, Score, Eval_item
 import csv
 from django.http import HttpResponse
-
 class EvaldataInline(admin.StackedInline):
     model = AudioFile
     extra = 2
@@ -45,12 +44,12 @@ class AudioFileAdmin(admin.ModelAdmin):
 
 @admin.register(Score)
 class ScoreAdmin(admin.ModelAdmin):
-    list_display_links = ['id', 'user', 'student', 'eval_item', 'rating_un', 'rating_fu', 'rating_ac',
-                          'rating_ph', 'rating_accent', 'rating_rule', 'rating_speed', 'rating_pause', 'uploaded_at']
-    list_display = ('id', 'user', 'student', 'eval_item', 'rating_un', 'rating_fu', 'rating_ac',
-                    'rating_ph', 'rating_accent', 'rating_rule', 'rating_speed', 'rating_pause', 'uploaded_at')
-    ordering = ['id', 'user', 'student', 'eval_item', 'rating_un', 'rating_fu', 'rating_ac',
-                'rating_ph', 'rating_accent', 'rating_rule', 'rating_speed', 'rating_pause', 'uploaded_at']
+    list_display_links = ['id', 'user', 'student', 'eval_item', 'rating_ho', 'rating_un', 'rating_fu', 'rating_ac',
+                          'rating_ph', 'rating_accent', 'rating_rule', 'rating_pause', 'uploaded_at', 'eval_completed']
+    list_display = ('id', 'user', 'student', 'eval_item', 'rating_ho', 'rating_un', 'rating_fu', 'rating_ac',
+                    'rating_ph', 'rating_accent', 'rating_rule', 'rating_pause', 'uploaded_at', 'eval_completed')
+    ordering = ['id', 'user', 'student', 'eval_item', 'rating_ho', 'rating_un', 'rating_fu', 'rating_ac',
+                'rating_ph', 'rating_accent', 'rating_rule', 'rating_pause', 'uploaded_at', 'eval_completed']
 
     def export_to_excel(self, request, queryset):
 
@@ -60,14 +59,14 @@ class ScoreAdmin(admin.ModelAdmin):
         writer = csv.writer(response)
         writer.writerow(
             ['id', 'user', 'student', 'eval_item',
-             'rating_un', 'rating_fu', 'rating_ac',
-             'rating_ph', 'rating_accent', 'rating_rule', 'rating_speed', 'rating_pause', 'uploaded_at'])
+             'rating_ho', 'rating_un', 'rating_fu', 'rating_ac',
+             'rating_ph', 'rating_accent', 'rating_rule', 'rating_pause', 'uploaded_at'])
 
         for obj in queryset:
             writer.writerow(
-                [obj.id, obj.user, obj.student, obj.eval_item,
+                [obj.id, obj.user, obj.student, obj.eval_item, obj.rating_ho,
                  obj.rating_un, obj.rating_fu, obj.rating_ac,
-                 obj.rating_ph, obj.rating_accent, obj.rating_rule, obj.rating_speed, obj.rating_pause,
+                 obj.rating_ph, obj.rating_accent, obj.rating_rule, obj.rating_pause,
                  obj.uploaded_at])
 
         return response

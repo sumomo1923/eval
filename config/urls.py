@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('eval/', include('eval.urls')),
     path('common/', include('common.urls')),
-    path('', views.student_list, name='student_list'),  # '/' 에 해당되는 path
+    path('', views.home, name='home'),  # '/' 에 해당되는 path
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

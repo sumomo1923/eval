@@ -1,89 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class= "container my-3">
-  <br><h4><center><kbd>{{ eval_item_type }}</kbd> {{ eval_item_name }} </center></h4></br>
-  <div class="container my-3">
-    <table class="table table-hover">
+<br><h4><center><kbd>{{ eval_item_type }}</kbd> {{ eval_item_name }} </center></h4></br>
+    <table class="table">
       <thead>
-        <tr class="table-dark">
-          <th><center>학습자 번호</center></th>
-          <th><center>학습자 발화 파일</center></th>
-          <th><center>평가</center></th>
-        </tr>
+        <thead class="table-dark">
+          <th style="text-align: center;">학습자 번호</th>
+          <th style="text-align: center;">학습자 발화 파일</th>
+          <th>평가</th>
+          <th>평가 여부 확인</th>
+        </thead>
       </thead>
       <tbody>
       <tr>
       {% for audio_file in student_num %}
-          <td><center>{{ audio_file.student_number }}</center></td>
-          <td><center>
+          <td><div style="text-align: center;">{{ audio_file.student_number }}</div></td>
+          <td><div style="text-align: center;">
               {% if audio_file.audio_file %}
-              <audio controls>
+              <audio controls controlsList="nodownload">
                   <source src="{{ audio_file.audio_file.url }}" type="audio/mp3">
               </audio>
               {% else %}
               오디오 파일이 없습니다.
               {% endif %}
-          </center></td>
+          </div></td>
           <td>{% if audio_file.item_type == "문장" %}
               <form method="POST" enctype="multipart/form-data">
               {% csrf_token %}
               <input type="hidden" name="eval_item_name" value="{{ audio_file.item }}">
               <input type="hidden" name="student_name" value="{{ audio_file.student_number }}">
               <div>
-                  <label for="rating_un"><kbd>이해도</kbd></label>
-                  <input type="radio" name="rating_un" id="rating_un_0" value="0"><label for="rating_un_0">0</label>
-                  <input type="radio" name="rating_un" id="rating_un_1" value="1"><label for="rating_un_1">1</label>
-                  <input type="radio" name="rating_un" id="rating_un_2" value="2"><label for="rating_un_2">2</label>
-                  <input type="radio" name="rating_un" id="rating_un_3" value="3"><label for="rating_un_3">3</label>
-                  <input type="radio" name="rating_un" id="rating_un_4" value="4"><label for="rating_un_4">4</label>
-                  <label for="rating_fu"><kbd>유창도</kbd></label>
-                  <input type="radio" name="rating_fu" id="rating_fu_0" value="0"><label for="rating_fu_0">0</label>
-                  <input type="radio" name="rating_fu" id="rating_fu_1" value="1"><label for="rating_fu_1">1</label>
-                  <input type="radio" name="rating_fu" id="rating_fu_2" value="2"><label for="rating_fu_2">2</label>
-                  <input type="radio" name="rating_fu" id="rating_fu_3" value="3"><label for="rating_fu_3">3</label>
-                  <input type="radio" name="rating_fu" id="rating_fu_4" value="4"><label for="rating_fu_4">4</label>
-                  <label for="rating_ac"><kbd>정확도</kbd></label>
-                  <input type="radio" name="rating_ac" id="rating_ac_0" value="0"><label for="rating_ac_0">0</label>
-                  <input type="radio" name="rating_ac" id="rating_ac_1" value="1"><label for="rating_ac_1">1</label>
-                  <input type="radio" name="rating_ac" id="rating_ac_2" value="2"><label for="rating_ac_2">2</label>
-                  <input type="radio" name="rating_ac" id="rating_ac_3" value="3"><label for="rating_ac_3">3</label>
-                  <input type="radio" name="rating_ac" id="rating_ac_4" value="4"><label for="rating_ac_4">4</label>
-                </div>
-                <br>
-                <div>
+                  <label for="rating_ho"><kbd>총체적 평가</kbd></label>
+                  <input type="radio" name="rating_ho" id="rating_ho_1" value="1"><label for="rating_ho_1">1</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_2" value="2"><label for="rating_ho_2">2</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_3" value="3"><label for="rating_ho_3">3</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_4" value="4"><label for="rating_ho_4">4</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_5" value="5"><label for="rating_ho_5">5</label>
+                  <kbd>분석적 평가</kbd>
                   <label for="rating_ph"><kbd>자음/모음</kbd></label>
-                  <input type="radio" name="rating_ph" id="rating_ph_0" value="0"><label for="rating_ph_0">0</label>
                   <input type="radio" name="rating_ph" id="rating_ph_1" value="1"><label for="rating_ph_1">1</label>
                   <input type="radio" name="rating_ph" id="rating_ph_2" value="2"><label for="rating_ph_2">2</label>
                   <input type="radio" name="rating_ph" id="rating_ph_3" value="3"><label for="rating_ph_3">3</label>
                   <input type="radio" name="rating_ph" id="rating_ph_4" value="4"><label for="rating_ph_4">4</label>
-                  <label for="rating_accent"><kbd>억양/강세</kbd></label>
-                  <input type="radio" name="rating_accent" id="rating_accent_0" value="0"><label for="rating_accent_0">0</label>
-                  <input type="radio" name="rating_accent" id="rating_accent_1" value="1"><label for="rating_accent_1">1</label>
-                  <input type="radio" name="rating_accent" id="rating_accent_2" value="2"><label for="rating_accent_2">2</label>
-                  <input type="radio" name="rating_accent" id="rating_accent_3" value="3"><label for="rating_accent_3">3</label>
-                  <input type="radio" name="rating_accent" id="rating_accent_4" value="4"><label for="rating_accent_4">4</label>
-                </div>
-                <div>
+                  <input type="radio" name="rating_ph" id="rating_ph_5" value="5"><label for="rating_ph_5">5</label>
                   <label for="rating_rule"><kbd>발음 규칙</kbd></label>
-                  <input type="radio" name="rating_rule" id="rating_rule_0" value="0"><label for="rating_rule_0">0</label>
                   <input type="radio" name="rating_rule" id="rating_rule_1" value="1"><label for="rating_rule_1">1</label>
                   <input type="radio" name="rating_rule" id="rating_rule_2" value="2"><label for="rating_rule_2">2</label>
                   <input type="radio" name="rating_rule" id="rating_rule_3" value="3"><label for="rating_rule_3">3</label>
                   <input type="radio" name="rating_rule" id="rating_rule_4" value="4"><label for="rating_rule_4">4</label>
-                  <label for="rating_speed"><kbd>발화 속도</kbd></label>
-                  <input type="radio" name="rating_speed" id="rating_speed_0" value="0"><label for="rating_speed_0">0</label>
-                  <input type="radio" name="rating_speed" id="rating_speed_1" value="1"><label for="rating_speed_1">1</label>
-                  <input type="radio" name="rating_speed" id="rating_speed_2" value="2"><label for="rating_speed_2">2</label>
-                  <input type="radio" name="rating_speed" id="rating_speed_3" value="3"><label for="rating_speed_3">3</label>
-                  <input type="radio" name="rating_speed" id="rating_speed_4" value="4"><label for="rating_speed_4">4</label>
-                  <label for="rating_pause"><kbd>휴지/더듬음</kbd></label>
-                  <input type="radio" name="rating_pause" id="rating_pause_0" value="0"><label for="rating_pause_0">0</label>
+                  <input type="radio" name="rating_rule" id="rating_rule_5" value="5"><label for="rating_rule_5">5</label>
+                  <label for="rating_accent"><kbd>억양/강세</kbd></label>
+                  <input type="radio" name="rating_accent" id="rating_accent_1" value="1"><label for="rating_accent_1">1</label>
+                  <input type="radio" name="rating_accent" id="rating_accent_2" value="2"><label for="rating_accent_2">2</label>
+                  <input type="radio" name="rating_accent" id="rating_accent_3" value="3"><label for="rating_accent_3">3</label>
+                  <input type="radio" name="rating_accent" id="rating_accent_4" value="4"><label for="rating_accent_4">4</label>
+                  <input type="radio" name="rating_accent" id="rating_accent_5" value="5"><label for="rating_accent_5">5</label>
+                  <label for="rating_pause"><kbd>휴지/머뭇거림</kbd></label>
                   <input type="radio" name="rating_pause" id="rating_pause_1" value="1"><label for="rating_pause_1">1</label>
                   <input type="radio" name="rating_pause" id="rating_pause_2" value="2"><label for="rating_pause_2">2</label>
                   <input type="radio" name="rating_pause" id="rating_pause_3" value="3"><label for="rating_pause_3">3</label>
                   <input type="radio" name="rating_pause" id="rating_pause_4" value="4"><label for="rating_pause_4">4</label>
+                  <input type="radio" name="rating_pause" id="rating_pause_5" value="5"><label for="rating_pause_5">5</label>
                   <input type="submit" value="평가 저장">
                 </div>
               </form>
@@ -92,33 +68,72 @@
                 {% csrf_token %}
               <input type="hidden" name="eval_item_name" value="{{ audio_file.item }}">
               <input type="hidden" name="student_name" value="{{ audio_file.student_number }}">
-                  <div>
+              <div">
+                  <label for="rating_ho"><kbd>총체적 평가</kbd></label>
+                  <input type="radio" name="rating_ho" id="rating_ho_1" value="1"><label for="rating_ho_1">1</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_2" value="2"><label for="rating_ho_2">2</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_3" value="3"><label for="rating_ho_3">3</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_4" value="4"><label for="rating_ho_4">4</label>
+                  <input type="radio" name="rating_ho" id="rating_ho_5" value="5"><label for="rating_ho_5">5</label>
+                  <kbd>분석적 평가</kbd>
                   <label for="rating_un"><kbd>이해도</kbd></label>
-                  <input type="radio" name="rating_un" id="rating_un_0" value="0"><label for="rating_un_0">0</label>
                   <input type="radio" name="rating_un" id="rating_un_1" value="1"><label for="rating_un_1">1</label>
                   <input type="radio" name="rating_un" id="rating_un_2" value="2"><label for="rating_un_2">2</label>
                   <input type="radio" name="rating_un" id="rating_un_3" value="3"><label for="rating_un_3">3</label>
                   <input type="radio" name="rating_un" id="rating_un_4" value="4"><label for="rating_un_4">4</label>
+                  <input type="radio" name="rating_un" id="rating_un_5" value="5"><label for="rating_un_5">5</label>
                   <label for="rating_fu"><kbd>유창도</kbd></label>
-                  <input type="radio" name="rating_fu" id="rating_fu_0" value="0"><label for="rating_fu_0">0</label>
                   <input type="radio" name="rating_fu" id="rating_fu_1" value="1"><label for="rating_fu_1">1</label>
                   <input type="radio" name="rating_fu" id="rating_fu_2" value="2"><label for="rating_fu_2">2</label>
                   <input type="radio" name="rating_fu" id="rating_fu_3" value="3"><label for="rating_fu_3">3</label>
                   <input type="radio" name="rating_fu" id="rating_fu_4" value="4"><label for="rating_fu_4">4</label>
+                  <input type="radio" name="rating_fu" id="rating_fu_5" value="5"><label for="rating_fu_5">5</label>
                   <label for="rating_ac"><kbd>정확도</kbd></label>
-                  <input type="radio" name="rating_ac" id="rating_ac_0" value="0"><label for="rating_ac_0">0</label>
                   <input type="radio" name="rating_ac" id="rating_ac_1" value="1"><label for="rating_ac_1">1</label>
                   <input type="radio" name="rating_ac" id="rating_ac_2" value="2"><label for="rating_ac_2">2</label>
                   <input type="radio" name="rating_ac" id="rating_ac_3" value="3"><label for="rating_ac_3">3</label>
                   <input type="radio" name="rating_ac" id="rating_ac_4" value="4"><label for="rating_ac_4">4</label>
+                  <input type="radio" name="rating_ac" id="rating_ac_5" value="5"><label for="rating_ac_5">5</label>
                   <input type="submit" value="평가 저장">
-                  </div>
+              </div>
               </form>
+              {% endif %}
+          </td>
+          <td> {% if audio_file.eval_completed == '미완료' %}
+              <kbd style="background-color: red;" id="incomplete-{{ audio_file.student_number }}">미완료</kbd>
+              {% else %}
+              <kbd style="background-color: green;" id="complete-{{ audio_file.student_number }}">완료</kbd>
               {% endif %}
           </td>
       </tr>
       {% endfor %}
+<script>
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', (event) => {
+        const radioGroups = {% if eval_item_type == "단어" %}['rating_ho', 'rating_un', 'rating_fu', 'rating_ac']{% else %}['rating_ho', 'rating_ph', 'rating_rule', 'rating_accent', 'rating_pause']{% endif %};
+        // 각각의 평가 항목 그룹에서 체크된 항목이 있는지 확인
+        for (const group of radioGroups) {
+            if (!form.querySelector(`input[name="${group}"]:checked`)) {
+                alert(`일부 평가 항목이 선택되지 않았습니다.`);
+                event.preventDefault(); // 폼 제출 취소
+                return;
+            }
+        }
+        // 모든 항목이 체크되었다면 평가가 저장되었음을 알림
+        alert('평가가 저장되었습니다!');
+
+        // 해당 학습자의 평가 여부를 "완료"로 변경
+        const studentNumber = form.querySelector('input[name="student_name"]').value;
+        const completeLabel = document.querySelector(`#incomplete-${studentNumber}`);
+        if (completeLabel) {
+            completeLabel.style.backgroundColor = 'green';
+            completeLabel.innerHTML = '완료';
+            completeLabel.id = `complete-${studentNumber}`;
+        }
+    });
+});
+</script>
       </tbody>
     </table>
-  </div>
-    {% endblock %}
+</div>
+{% endblock %}
