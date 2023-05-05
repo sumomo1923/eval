@@ -11,7 +11,6 @@ def home(request):
 def test_info(request):
     return render(request, 'eval/test_info.html')
 
-@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True)
 def student_list(request):
     page = request.GET.get('page', '1')  # 페이지
     item_list = Eval_item.objects.order_by('my_id')
@@ -20,7 +19,6 @@ def student_list(request):
     context = {'item_list': page_obj}
     return render(request, 'eval/student_list.html', context)
 
-@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True)
 def audio_list(request, item_id):
 
     student_num = AudioFile.objects.filter(item=item_id).order_by('student_number')
@@ -35,12 +33,13 @@ def audio_list(request, item_id):
 
     eval_item_name = ''
 
-    for i, audio_file in enumerate(item_by_num):
+    for audio_file in item_by_num:
         eval_item_name = audio_file.item_text
 
     if request.method == 'POST':
         student_name = request.POST['student_name']
         student = Student.objects.get(name=student_name)
+        eval_item_name = Eval_item.objects.get(item_text=eval_item_name)
 
         std = Score()
         std.user = request.user
