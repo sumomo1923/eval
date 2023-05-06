@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Student, AudioFile, Score, Eval_item
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def home(request):
     return render(request, 'eval/home.html')
@@ -18,6 +19,7 @@ def student_list(request):
     page_obj = paginator.get_page(page)
     context = {'item_list': page_obj}
     return render(request, 'eval/student_list.html', context)
+
 
 def audio_list(request, item_id):
 
@@ -56,30 +58,28 @@ def audio_list(request, item_id):
         std.eval_completed = True
         std.save()
 
-        # 평가가 저장되면 eval_completed를 True로 수정
-        eval_completed = True
-
-        if eval_completed:
-            for audio_file in student_num:
-                score = Score.objects.filter(user=request.user, eval_item=eval_item_name,
-                                             student__name=audio_file.student_number).first()
-                if score:
-                    audio_file.eval_completed = '완료'
-                else:
-                    audio_file.eval_completed = '미완료'
-                audio_file.save()
-
-    # 현재 로그인한 사용자와 관련된 평가 정보만 필터링
     scores = Score.objects.filter(user=request.user, eval_item=item_by_num[0])
-
     eval_completed_dict = {score.student.name: score.eval_completed for score in scores}
 
-    context = {'item_by_num': item_by_num,
+    # Update eval_completed_dict for current user
+    user_scores = Score.objects.filter(user=request.user, eval_item=item_by_num[0])
+    eval_completed_dict.update({score.student.name: score.eval_completed for score in user_scores})
+
+    for audio_file in student_num:
+        if audio_file.student_number in eval_completed_dict:
+            audio_file.eval_completed = '완료'
+        else:
+            audio_file.eval_completed = '미완료'
+        audio_file.save()
+
+    context = {'item': item_by_num[0],
+               'item_by_num': item_by_num,
                'student_num': student_num,
                'eval_item_name': eval_item_name,
                'eval_item_type': eval_item_type,
                'eval_completed': eval_completed,
-               'eval_completed_dict': eval_completed_dict}
+               'eval_completed_dict': eval_completed_dict,
+               }
 
     return render(request, 'eval/audio_list.html', context)
 def vote(request):

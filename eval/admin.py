@@ -18,10 +18,10 @@ class Eval_itemAdmin(admin.ModelAdmin):
 
 @admin.register(AudioFile)
 class AudioFileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'student_number', 'item', 'item_type', 'audio_file')
-    list_display_links = ['id', 'student_number', 'item', 'item_type', 'audio_file']
-    list_filter = ('id', 'student_number', 'item', 'item_type', 'audio_file')
-    ordering = ['id', 'student_number', 'item', 'item_type', 'audio_file']
+    list_display = ('id', 'student_number', 'item', 'item_type', 'audio_file', 'eval_completed')
+    list_display_links = ['id', 'student_number', 'item', 'item_type', 'audio_file', 'eval_completed']
+    list_filter = ('id', 'student_number', 'item', 'item_type', 'audio_file','eval_completed')
+    ordering = ['id', 'student_number', 'item', 'item_type', 'audio_file', 'eval_completed']
 
     def export_to_excel(self, request, queryset):
 
