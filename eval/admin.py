@@ -30,7 +30,7 @@ class AudioFileAdmin(admin.ModelAdmin):
 
         writer = csv.writer(response)
         writer.writerow(
-            ['id', 'student_number', 'item', 'audio_file'])
+            ['id', 'student_number', 'item_type', 'item', 'audio_file'])
 
         for obj in queryset:
             writer.writerow(
