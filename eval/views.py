@@ -25,8 +25,7 @@ def student_list(request):
         ~Q(item_text__icontains='연락처는 이메일 주소를 쓸까요? 전화번호를 쓸까요?') &
         ~Q(item_text__icontains='내일은 도서관에서 같이 공부합시다.') &
         ~Q(item_text__icontains='새로 나온 음료수 먹어 봤는데 진짜 맛있네!') &
-        ~Q(item_text__icontains='식당에 갔는데 문을 닫아서 그냥 왔어요.')
-    ).order_by('my_id')
+        ~Q(item_text__icontains='식당에 갔는데 문을 닫아서 그냥 왔어요.')).order_by('my_id')
     paginator = Paginator(item_lists, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
     context = {'item_list': page_obj}
