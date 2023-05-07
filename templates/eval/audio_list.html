@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr>
-      {% for audio_file in student_num %}
+      {% for audio_file in audio_files %}
           <td><div style="text-align: center;">{{ audio_file.student_number }}</div></td>
           <td><div style="text-align: center;">
               {% if audio_file.audio_file %}
@@ -135,5 +135,43 @@ document.querySelectorAll('form').forEach(form => {
 </script>
       </tbody>
     </table>
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if audio_files.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ audio_files.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in audio_files.paginator.page_range %}
+        {% if page_number >= audio_files.number|add:-5 and page_number <= audio_files.number|add:5 %}
+        {% if page_number == audio_files.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if audio_files.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ audio_files.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
 </div>
 {% endblock %}
