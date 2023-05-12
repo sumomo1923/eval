@@ -171,7 +171,7 @@ class Student(models.Model):
         return self.name
 
 class Eval_item(models.Model):
-    my_id = models.IntegerField(blank=True)
+    my_id = models.CharField("my_id", max_length=200, blank=True)
     item_text = models.CharField("평가 단어/문장", choices=ITEM_TEXT, max_length=100, default="")
     item_component = models.CharField("평가 요소", max_length=200, choices=EVAL_COMPONENT, default="")
     pub_date = models.DateTimeField(auto_now_add=True)

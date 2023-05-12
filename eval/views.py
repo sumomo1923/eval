@@ -15,17 +15,7 @@ def test_info(request):
 
 def student_list(request):
     page = request.GET.get('page', '1')  # 페이지
-    item_lists = Eval_item.objects.filter(
-        ~Q(item_text__icontains='작년에 생일 선물로 받은 신발입니다.') &
-        ~Q(item_text__icontains='집에 큰 창문이 없어서 답답해요.') &
-        ~Q(item_text__icontains='좋아하는 노래를 듣고 싶으면 이렇게 하세요.') &
-        ~Q(item_text__icontains='오늘은 할 일이 너무 많은데 뭐부터 시작할까요?') &
-        ~Q(item_text__icontains='꽃집 앞에서 오 분만 기다릴 수 있어요?') &
-        ~Q(item_text__icontains='아침에는 버스보다 지하철이 더 편리해요?') &
-        ~Q(item_text__icontains='연락처는 이메일 주소를 쓸까요? 전화번호를 쓸까요?') &
-        ~Q(item_text__icontains='내일은 도서관에서 같이 공부합시다.') &
-        ~Q(item_text__icontains='새로 나온 음료수 먹어 봤는데 진짜 맛있네!') &
-        ~Q(item_text__icontains='식당에 갔는데 문을 닫아서 그냥 왔어요.')).order_by('my_id')
+    item_lists = Eval_item.objects.order_by('my_id')
     paginator = Paginator(item_lists, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
     context = {'item_list': page_obj}

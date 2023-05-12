@@ -15,14 +15,12 @@
             <tbody>
             {% if item_list %}
                 {% for item in item_list %}
-                    {% if item.item_component == '모음_단모음' or item.item_component == '모음_이중모음' or item.item_component == '자음(받침 포함)_ㄹ' or item.item_component == '자음_ㅎ' or item.item_component == '자음_ㅂ, ㅃ, ㅍ' or item.item_component == '자음_ㄷ, ㄸ, ㅌ' or item.item_component == '자음_ㅅ, ㅆ' or item.item_component == '자음_ㅈ, ㅉ, ㅊ' or item.item_component == '자음_ㄱ, ㄲ, ㅋ' or item.item_component == '자음_받침_ㅁ, ㄴ, ㅇ, ㅂ, ㄷ, ㄱ' %}
                 <tr>
                     <td><center>{{ item.my_id }}</center></td>
                     <td><center>{{ item.item_text }}</center></td>
                     <td><center><a href="/eval/{{ item.id }}/" class="btn btn-success"> 평가하기 </a>
                     </center></td>
                 </tr>
-            {% endif %}
                 {% endfor %}
             {% endif %}
             </tbody>
